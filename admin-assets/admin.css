@@ -166,5 +166,6 @@
 
   .main-content {
     margin-left: 0 !important;
+    padding-bottom: 72px;
   }
 }

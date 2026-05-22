@@ -494,6 +494,36 @@ body {
   font-weight: 500;
 }
 
+/* ===== BOTTOM NAV (mobile only) ===== */
+.bottom-nav {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  background: #fff;
+  border-top: 1px solid var(--color-neutral-200);
+  padding: 4px var(--space-2);
+  padding-bottom: calc(4px + env(safe-area-inset-bottom, 0px));
+  box-shadow: 0 -4px 12px rgba(0,0,0,0.05);
+}
+
+.bottom-nav a.active {
+  color: var(--color-primary) !important;
+}
+
+.bottom-nav a svg,
+.bottom-nav a i {
+  transition: color 150ms;
+}
+
+@media (min-width: 768px) {
+  .bottom-nav {
+    display: none;
+  }
+}
+
 /* ===== UTILITY ===== */
 .brand-glow {
   box-shadow: 0 4px 14px 0 rgba(29, 185, 84, 0.3);
