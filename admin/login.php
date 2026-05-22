@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     tailwind.config = { theme: { extend: { colors: { brand: '#1DB954', navy: '#0B1E3D', amber: '#F59E0B', danger: '#EF4444' }, fontFamily: { sans: ['Poppins', 'sans-serif'] } } } }
   </script>
   <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="stylesheet" href="../assets/css/custom.css">
+  <link rel="stylesheet" href="../admin-assets/custom.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     body { background: var(--color-navy); min-height: 100vh; display: flex; align-items: center; justify-content: center; }
