@@ -1,49 +1,130 @@
-/* Admin panel overrides & sidebar layout */
+/* Admin panel — sidebar & layout */
+
+/* Override custom.css sidebar defaults for admin */
 .sidebar {
-  width: 240px;
+  width: 240px !important;
+  max-width: 240px !important;
   min-height: 100vh;
-  background: var(--color-navy);
-  position: fixed;
+  background: var(--color-navy) !important;
+  position: fixed !important;
   top: 0;
   left: 0;
   z-index: 40;
   display: flex;
   flex-direction: column;
+  transform: none !important;
+  transition: width 0.2s ease;
 }
 
 .sidebar.collapsed {
-  width: 60px;
+  width: 60px !important;
 }
+
+/* Sidebar brand */
+.sidebar-brand-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* Sidebar section titles */
+.sidebar-section-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.35);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0 12px;
+  margin-bottom: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* Sidebar nav links */
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.55);
+  text-decoration: none;
+  transition: all 150ms;
+  min-height: 44px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.sidebar-link:hover {
+  color: #fff;
+  background: rgba(255,255,255,0.06);
+}
+
+.sidebar-link:active {
+  background: rgba(255,255,255,0.1);
+}
+
+.sidebar-link.active {
+  color: #1DB954;
+  background: rgba(29, 185, 84, 0.1);
+}
+
+.sidebar-link i {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.sidebar-link span {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Collapsed state */
 .sidebar.collapsed .sidebar-brand-name,
 .sidebar.collapsed .sidebar-link span,
 .sidebar.collapsed .sidebar-section-title {
   display: none;
 }
+
 .sidebar.collapsed .sidebar-link {
   justify-content: center;
   padding: 10px 0;
 }
 
+.sidebar.collapsed .sidebar-nav-wrap {
+  padding: 12px 8px;
+}
+
+/* Main content area */
 .main-content {
   margin-left: 240px;
   min-height: 100vh;
   transition: margin-left 0.2s;
 }
 
-.sidebar.collapsed + .main-content {
+.sidebar.collapsed ~ .main-content {
   margin-left: 60px;
 }
 
-/* Auth layout */
-.auth-page {
-  background: var(--color-navy);
-  min-height: 100vh;
+/* Stat card icon */
+.stat-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
 }
 
-/* Table wrapper for scrolling */
+/* Table wrapper */
 .table-wrap {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
@@ -57,41 +138,33 @@
   align-items: center;
 }
 
-/* Stat card icon */
-.stat-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-}
-
-/* Responsive admin */
-@media (max-width: 767px) {
-  .sidebar {
-    transform: translateX(-100%);
-  }
-  .sidebar.open {
-    transform: translateX(0);
-  }
-  .main-content {
-    margin-left: 0;
-  }
-  .sidebar.open + .main-content {
-    margin-left: 0;
-  }
-}
-
 /* Small inline form helpers */
 .inline-form {
   display: flex;
   gap: 8px;
   align-items: center;
 }
+
 .inline-form .form-input,
 .inline-form .form-select {
   width: auto;
   min-width: 140px;
+}
+
+/* Mobile sidebar */
+@media (max-width: 767px) {
+  .sidebar {
+    transform: translateX(-100%) !important;
+    transition: transform 0.25s ease !important;
+    width: 80vw !important;
+    max-width: 320px !important;
+  }
+
+  .sidebar.open {
+    transform: translateX(0) !important;
+  }
+
+  .main-content {
+    margin-left: 0 !important;
+  }
 }
