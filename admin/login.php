@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <form method="post">
         <div class="mb-4">
           <label class="form-label">Email</label>
-          <input type="email" name="email" class="form-input" placeholder="admin@demo.com" value="admin@demo.com" required>
+          <input type="email" name="email" class="form-input" placeholder="admin@recurlog.com" value="admin@recurlog.com" required>
         </div>
         <div class="mb-6">
           <label class="form-label">Password</label>

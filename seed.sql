@@ -2,7 +2,7 @@ USE ektamultp_recurlog;
 
 -- Admin user (password: demo123)
 INSERT INTO users (email, password, name) VALUES
-('admin@demo.com', '$2y$12$hRWlrwz.2grYUQc2TPuNIuyuutVmkwV41JGfY1X0Iaidb4VgpQqqK', 'Admin');
+('admin@recurlog.com', '$2y$12$hRWlrwz.2grYUQc2TPuNIuyuutVmkwV41JGfY1X0Iaidb4VgpQqqK', 'Admin');
 
 -- Staff
 INSERT INTO staff (id, name, phone, avatar, active_tasks) VALUES
