@@ -1,0 +1,116 @@
+CREATE DATABASE IF NOT EXISTS recurlog CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE recurlog;
+
+-- Staff
+CREATE TABLE IF NOT EXISTS staff (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  phone VARCHAR(50) NOT NULL DEFAULT '',
+  avatar VARCHAR(500) DEFAULT NULL,
+  active_tasks INT NOT NULL DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Categories
+CREATE TABLE IF NOT EXISTS categories (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  color VARCHAR(7) NOT NULL DEFAULT '#1DB954',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Customers
+CREATE TABLE IF NOT EXISTS customers (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  address TEXT DEFAULT NULL,
+  phone VARCHAR(50) DEFAULT NULL,
+  services_for TEXT DEFAULT NULL COMMENT 'JSON array of service types',
+  location_lat DECIMAL(10,8) DEFAULT NULL,
+  location_lng DECIMAL(11,8) DEFAULT NULL,
+  area VARCHAR(255) DEFAULT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Services
+CREATE TABLE IF NOT EXISTS services (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  customer_id INT NOT NULL,
+  category_id INT DEFAULT NULL,
+  service_for VARCHAR(100) DEFAULT NULL,
+  title VARCHAR(255) DEFAULT NULL,
+  is_recurring TINYINT(1) NOT NULL DEFAULT 0,
+  first_scheduled_date DATE DEFAULT NULL,
+  assigned_to INT DEFAULT NULL,
+  notes TEXT DEFAULT NULL,
+  recurrence_value INT DEFAULT NULL,
+  recurrence_unit VARCHAR(10) DEFAULT NULL COMMENT 'days, weeks, months, years',
+  recurrence_repeat_from VARCHAR(20) DEFAULT 'last_service' COMMENT 'last_service or fixed_schedule',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (customer_id) REFERENCES customers(id) ON DELETE CASCADE,
+  FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL,
+  FOREIGN KEY (assigned_to) REFERENCES staff(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Tasks
+CREATE TABLE IF NOT EXISTS tasks (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  service_id INT DEFAULT NULL,
+  customer_id INT DEFAULT NULL,
+  title VARCHAR(255) DEFAULT NULL,
+  status ENUM('pending','completed','missed') NOT NULL DEFAULT 'pending',
+  scheduled_date DATE DEFAULT NULL,
+  completed_date DATE DEFAULT NULL,
+  assigned_to INT DEFAULT NULL,
+  notes TEXT DEFAULT NULL,
+  category_id INT DEFAULT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE SET NULL,
+  FOREIGN KEY (customer_id) REFERENCES customers(id) ON DELETE SET NULL,
+  FOREIGN KEY (assigned_to) REFERENCES staff(id) ON DELETE SET NULL,
+  FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Notifications
+CREATE TABLE IF NOT EXISTS notifications (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  text TEXT NOT NULL,
+  type VARCHAR(50) NOT NULL DEFAULT 'info',
+  related_id INT DEFAULT NULL,
+  is_read TINYINT(1) NOT NULL DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Orders
+CREATE TABLE IF NOT EXISTS orders (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  customer_id INT DEFAULT NULL,
+  customer_name VARCHAR(255) DEFAULT NULL,
+  service_for VARCHAR(100) DEFAULT NULL,
+  description TEXT DEFAULT NULL,
+  status VARCHAR(50) NOT NULL DEFAULT 'pending',
+  priority VARCHAR(20) DEFAULT 'normal' COMMENT 'normal, urgent, low',
+  assigned_to INT DEFAULT NULL,
+  assigned_staff_name VARCHAR(255) DEFAULT NULL,
+  scheduled_date DATE DEFAULT NULL,
+  notes TEXT DEFAULT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (customer_id) REFERENCES customers(id) ON DELETE SET NULL,
+  FOREIGN KEY (assigned_to) REFERENCES staff(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Service types
+CREATE TABLE IF NOT EXISTS service_types (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Admin user
+CREATE TABLE IF NOT EXISTS users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  name VARCHAR(255) DEFAULT 'Admin',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
