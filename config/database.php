@@ -6,9 +6,9 @@
  */
 
 define('DB_HOST', 'localhost');
-define('DB_NAME', 'recurlog');
-define('DB_USER', 'root');
-define('DB_PASS', '');
+define('DB_NAME', 'ektamultp_recurlog');
+define('DB_USER', 'ektamultp_recurlog');
+define('DB_PASS', '2.Sm&dwT3n.L.k~v');
 define('DB_CHARSET', 'utf8mb4');
 
 /**
